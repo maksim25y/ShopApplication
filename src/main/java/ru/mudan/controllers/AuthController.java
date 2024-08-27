@@ -1,6 +1,5 @@
 package ru.mudan.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +20,12 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Object> signUp(@RequestBody @Valid SignUpRequest request) {
+    public ResponseEntity<Object> signUp(@RequestBody SignUpRequest request) {
         return new ResponseEntity<>(authenticationService.signUp(request), HttpStatusCode.valueOf(200));
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<Object> signIn(@RequestBody @Valid SignInRequest request) {
+    public ResponseEntity<Object> signIn(@RequestBody SignInRequest request) {
         return new ResponseEntity<>(authenticationService.signIn(request), HttpStatusCode.valueOf(200));
     }
 }
