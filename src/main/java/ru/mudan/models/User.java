@@ -1,6 +1,8 @@
 package ru.mudan.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,11 +23,29 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "firstname")
     private String firstname;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "lastname")
     private String lastname;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "username",unique = true)
     private String username;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "email",unique = true)
     private String email;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "password")
     private String password;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "role")
     private Role role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
