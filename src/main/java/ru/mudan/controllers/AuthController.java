@@ -2,7 +2,9 @@ package ru.mudan.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import ru.mudan.services.AuthenticationService;
 import ru.mudan.validation.ResponseErrorValidation;
 import ru.mudan.validation.SignUpValidator;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @RestController
@@ -35,10 +38,12 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<Object> signUp(@RequestBody @Valid SignUpRequest request, BindingResult bindingResult) {
         signUpValidator.validate(request,bindingResult);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("text", "plain", StandardCharsets.UTF_8));
         ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
         if(!ObjectUtils.isEmpty(errors))return errors;
         authenticationService.signUp(request);
-        return new ResponseEntity<>("Пользователь успешно зарегистрирован", HttpStatus.OK);
+        return new ResponseEntity<>("Пользователь успешно зарегистрирован",headers, HttpStatus.OK);
     }
 
     @PostMapping("/sign-in")
