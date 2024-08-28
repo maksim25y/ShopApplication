@@ -43,8 +43,6 @@ public class User implements UserDetails {
     @NotBlank
     @Column(name = "password")
     private String password;
-    @NotEmpty
-    @NotBlank
     @Column(name = "role")
     private Role role;
     @Override
