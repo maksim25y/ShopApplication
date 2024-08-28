@@ -1,8 +1,10 @@
 package ru.mudan.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,24 +25,24 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Имя должно быть от 2 до 20 символов длиной")
+    @NotBlank(message = "Имя не должно быть пустым или состоять только из пробелов")
     @Column(name = "firstname")
     private String firstname;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Фамилия должна быть от 2 до 20 символов длиной")
+    @NotBlank(message = "Фамилия не должна быть пустой или состоять только из пробелов")
     @Column(name = "lastname")
     private String lastname;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 6, max = 15, message = "username должен быть от 6 до 15 символов длиной")
+    @NotBlank(message = "username не должен быть пустым или состоять только из пробелов")
     @Column(name = "username",unique = true)
     private String username;
-    @NotEmpty
-    @NotBlank
+    @Email(message = "email должен быть в формате example@test.com")
+    @NotBlank(message = "email не должен быть пустым или состоять только из пробелов")
     @Column(name = "email",unique = true)
     private String email;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 8, max = 20, message = "Пароль должен быть от 8 до 20 символов длиной")
+    @NotBlank(message = "Пароль не должен быть пустым или состоять только из пробелов")
     @Column(name = "password")
     private String password;
     @Column(name = "role")

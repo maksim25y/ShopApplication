@@ -1,7 +1,7 @@
 package ru.mudan.payload.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,19 +10,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpRequest {
-    @NotEmpty
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Имя должно быть от 2 до 20 символов длиной")
+    @NotBlank(message = "Имя не должно быть пустым или состоять только из пробелов")
     private String firstname;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 2, max = 20, message = "Фамилия должна быть от 2 до 20 символов длиной")
+    @NotBlank(message = "Фамилия не должна быть пустой или состоять только из пробелов")
     private String lastname;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 6, max = 15, message = "username должен быть от 6 до 15 символов длиной")
+    @NotBlank(message = "username не должен быть пустым или состоять только из пробелов")
     private String username;
-    @NotEmpty
-    @NotBlank
+    @Email(message = "email должен быть в формате example@test.com")
+    @NotBlank(message = "email не должен быть пустым или состоять только из пробелов")
     private String email;
-    @NotEmpty
-    @NotBlank
+    @Size(min = 8, max = 20, message = "Пароль должен быть от 8 до 20 символов длиной")
+    @NotBlank(message = "Пароль не должен быть пустым или состоять только из пробелов")
     private String password;
 }
