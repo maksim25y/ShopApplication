@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mudan.payload.request.SignInRequest;
 import ru.mudan.payload.request.SignUpRequest;
+import ru.mudan.payload.response.JwtAuthenticationResponse;
 import ru.mudan.services.AuthenticationService;
 import ru.mudan.validation.ResponseErrorValidation;
 import ru.mudan.validation.SignUpValidator;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,6 +44,7 @@ public class AuthController {
     public ResponseEntity<Object> signIn(@RequestBody @Valid SignInRequest request, BindingResult bindingResult) {
         ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
         if(!ObjectUtils.isEmpty(errors))return errors;
-        return new ResponseEntity<>(authenticationService.signIn(request), HttpStatus.OK);
+        Optional<JwtAuthenticationResponse>optionalJwtAuthenticationResponse = authenticationService.signIn(request);
+        return optionalJwtAuthenticationResponse.<ResponseEntity<Object>>map(jwtAuthenticationResponse -> new ResponseEntity<>(jwtAuthenticationResponse, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>("Неверное имя пользователя или пароль", HttpStatus.UNAUTHORIZED));
     }
 }

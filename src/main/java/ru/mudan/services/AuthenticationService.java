@@ -2,6 +2,7 @@ package ru.mudan.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import ru.mudan.payload.request.SignInRequest;
 import ru.mudan.payload.request.SignUpRequest;
 import ru.mudan.payload.response.JwtAuthenticationResponse;
 import ru.mudan.security.JwtService;
+
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -36,17 +39,20 @@ public class AuthenticationService {
                 .build();
         return userService.create(user);
     }
-    public JwtAuthenticationResponse signIn(SignInRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getUsername(),
-                request.getPassword()
-        ));
-
+    public Optional<JwtAuthenticationResponse> signIn(SignInRequest request) {
+        try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    request.getUsername(),
+                    request.getPassword()
+            ));
+        }catch (BadCredentialsException e){
+            return Optional.empty();
+        }
         var user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getUsername());
 
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return Optional.of(new JwtAuthenticationResponse(jwt));
     }
 }
