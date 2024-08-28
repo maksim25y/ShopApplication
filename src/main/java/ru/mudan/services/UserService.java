@@ -15,8 +15,8 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public User create(User user) {
-        return userRepository.save(user);
+    public void create(User user) {
+        userRepository.save(user);
     }
     public User getByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));

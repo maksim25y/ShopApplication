@@ -37,7 +37,8 @@ public class AuthController {
         signUpValidator.validate(request,bindingResult);
         ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
         if(!ObjectUtils.isEmpty(errors))return errors;
-        return new ResponseEntity<>(authenticationService.signUp(request), HttpStatus.OK);
+        authenticationService.signUp(request);
+        return new ResponseEntity<>("Пользователь успешно зарегистрирован", HttpStatus.OK);
     }
 
     @PostMapping("/sign-in")
