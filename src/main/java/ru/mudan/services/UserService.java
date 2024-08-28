@@ -29,4 +29,11 @@ public class UserService {
         return getByUsername(username);
     }
 
+    public boolean emailAlreadyExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean usernameAlreadyExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
 }
