@@ -51,7 +51,7 @@ public class AuthControllerTests {
                 .defaultResponseCharacterEncoding(StandardCharsets.UTF_8).build();
     }
     @Test
-    public void whenRegisterUserWithValidParametersReturnMessageThatRegisterIsSuccessful() throws Exception {
+    public void registerValidRequest() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         String requestContent = serializeToJson(signUpRequest);
 
@@ -61,19 +61,17 @@ public class AuthControllerTests {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "message");
+        String message = getResultFromResponseBody(result, "message");
 
         assertEquals("Пользователь успешно зарегистрирован", message);
     }
     @Test
-    public void whenRegisterUserWithUsernameEqualsNullReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerUsernameIsNull() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setUsername(null);
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("username","username не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "username не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -83,19 +81,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "username");
+        String message = getResultFromResponseBody(result, "username");
 
         assertEquals("username не должен быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithUsernameIsBlankReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerUsernameIsBlank() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setUsername("");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("username","username не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "username не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -105,18 +101,16 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "username");
+        String message = getResultFromResponseBody(result, "username");
 
         assertEquals("username не должен быть пустым или состоять только из пробелов",message);
     }
     @Test
-    public void whenRegisterUserWithUsernameThatAlreadyExistsReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerUsernameAlreadyExists() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("username","Пользователь с данным username уже существует");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "Пользователь с данным username уже существует");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -126,19 +120,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "username");
+        String message = getResultFromResponseBody(result, "username");
 
         assertEquals("Пользователь с данным username уже существует",message);
     }
     @Test
-    public void whenRegisterUserWithFirstnameEqualsNullReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerFirstnameIsNull() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setFirstname(null);
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("firstname","Имя не должно быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("firstname", "Имя не должно быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -148,19 +140,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "firstname");
+        String message = getResultFromResponseBody(result, "firstname");
 
         assertEquals("Имя не должно быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithFirstnameIsBlankReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerFirstnameIsBlank() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setFirstname("");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("firstname","Имя не должно быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("firstname", "Имя не должно быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -170,19 +160,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "firstname");
+        String message = getResultFromResponseBody(result, "firstname");
 
         assertEquals("Имя не должно быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithLastnameEqualsNullReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerLastnameIsNull() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setLastname(null);
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("lastname","Фамилия не должна быть пустой или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("lastname", "Фамилия не должна быть пустой или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -192,19 +180,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "lastname");
+        String message = getResultFromResponseBody(result, "lastname");
 
         assertEquals("Фамилия не должна быть пустой или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithLastnameIsBlankReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerLastnameIsBlank() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setLastname("");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("lastname","Фамилия не должна быть пустой или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("lastname", "Фамилия не должна быть пустой или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -214,19 +200,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "lastname");
+        String message = getResultFromResponseBody(result, "lastname");
 
         assertEquals("Фамилия не должна быть пустой или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithEmailEqualsNullReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerEmailIsNull() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setEmail(null);
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("email","email не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("email", "email не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -236,19 +220,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "email");
+        String message = getResultFromResponseBody(result, "email");
 
         assertEquals("email не должен быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithEmailIsBlankReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerEmailIsBlank() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setEmail("");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("email","email не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("email", "email не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -258,18 +240,16 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "email");
+        String message = getResultFromResponseBody(result, "email");
 
         assertEquals("email не должен быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithEmailThatAlreadyExistsReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerEmailAlreadyExists() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("email","Пользователь с данным email уже существует");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("email", "Пользователь с данным email уже существует");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -279,19 +259,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "email");
+        String message = getResultFromResponseBody(result, "email");
 
         assertEquals("Пользователь с данным email уже существует", message);
     }
     @Test
-    public void whenRegisterUserWithPasswordEqualsNullReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerPasswordIsNull() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setPassword(null);
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("password","Пароль не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("password", "Пароль не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -301,19 +279,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "password");
+        String message = getResultFromResponseBody(result, "password");
 
         assertEquals("Пароль не должен быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithPasswordIsBlankReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerPasswordIsBlank() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setPassword("");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("password","Пароль не должен быть пустым или состоять только из пробелов");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("password", "Пароль не должен быть пустым или состоять только из пробелов");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -323,19 +299,17 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "password");
+        String message = getResultFromResponseBody(result, "password");
 
         assertEquals("Пароль не должен быть пустым или состоять только из пробелов", message);
     }
     @Test
-    public void whenRegisterUserWithUsernameWithLength5ReturnMessageThatRegisterIsBad() throws Exception {
+    public void registerUsernameLengthEquals4() throws Exception {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         signUpRequest.setUsername("Тест");
         String requestContent = serializeToJson(signUpRequest);
 
-        Map<String,String>expectedResponse = Map.of("username","username должен быть от 6 до 15 символов длиной");
-        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "username должен быть от 6 до 15 символов длиной");
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
@@ -345,11 +319,182 @@ public class AuthControllerTests {
                 .andExpect(status().is4xxClientError())
                 .andReturn();
 
-        String responseBody = getResponseBodyAsString(result);
-        String message = getMessageFromJSOM(responseBody, "username");
+        String message = getResultFromResponseBody(result, "username");
 
         assertEquals("username должен быть от 6 до 15 символов длиной", message);
     }
+    @Test
+    public void registerUsernameLengthEquals16() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setUsername("ТестТестТестТест");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "username должен быть от 6 до 15 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "username");
+
+        assertEquals("username должен быть от 6 до 15 символов длиной", message);
+    }
+    @Test
+    public void registerFirstnameLengthEquals1() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setFirstname("Т");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("firstname", "Имя должно быть от 2 до 20 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "firstname");
+
+        assertEquals("Имя должно быть от 2 до 20 символов длиной", message);
+    }
+
+    @Test
+    public void registerFirstnameLengthEquals21() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setFirstname("ТестТестТестТестТестТ");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("firstname", "Имя должно быть от 2 до 20 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "firstname");
+
+        assertEquals("Имя должно быть от 2 до 20 символов длиной", message);
+    }
+    @Test
+    public void registerLastnameLengthEquals1() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setLastname("Т");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("lastname", "Фамилия не должна быть пустой или состоять только из пробелов");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "lastname");
+
+        assertEquals("Фамилия не должна быть пустой или состоять только из пробелов", message);
+    }
+    @Test
+    public void registerLastnameLengthEquals21() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setLastname("ТестТестТестТестТестТ");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("lastname", "Фамилия должна быть от 2 до 20 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "lastname");
+
+        assertEquals("Фамилия должна быть от 2 до 20 символов длиной", message);
+    }
+    @Test
+    public void registerEmailWithNotCorrectFormat() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setEmail("test");;
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("email", "email должен быть в формате example@test.com");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "email");
+
+        assertEquals("email должен быть в формате example@test.com", message);
+    }
+    @Test
+    public void registerPasswordLengthEquals7() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setLastname("test123");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("password", "Пароль должен быть от 8 до 20 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "password");
+
+        assertEquals("Пароль должен быть от 8 до 20 символов длиной", message);
+    }
+    @Test
+    public void registerPasswordLengthEquals21() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        signUpRequest.setLastname("test_password_test123");
+        String requestContent = serializeToJson(signUpRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("password", "Пароль должен быть от 8 до 20 символов длиной");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "password");
+
+        assertEquals("Пароль должен быть от 8 до 20 символов длиной", message);
+    }
+
+    private String getResultFromResponseBody(MvcResult result, String firstname) throws UnsupportedEncodingException {
+        String responseBody = getResponseBodyAsString(result);
+        return getMessageFromJSOM(responseBody, firstname);
+    }
+
+    private static ResponseEntity<Object> getExpectedResponseEntity(String firstname, String v1) {
+        Map<String, String> expectedResponse = Map.of(firstname, v1);
+        return new ResponseEntity<>(expectedResponse, HttpStatus.BAD_REQUEST);
+    }
+
     private String getMessageFromJSOM(String responseBody,String path){
         return JsonPath.read(responseBody, String.format("$.%s",path));
     }
