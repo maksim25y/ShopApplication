@@ -8,15 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
@@ -33,7 +30,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
@@ -115,6 +111,27 @@ public class AuthControllerTests {
         String message = getMessageFromJSOM(responseBody, "username");
 
         assertEquals("username не должен быть пустым или состоять только из пробелов",message);
+    }
+    @Test
+    public void whenRegisterUserWithUsernameThatAlreadyExistsReturnMessageThatRegisterIsBad() throws Exception {
+        SignUpRequest signUpRequest = getTestSignUpRequest();
+        String requestContent = serializeToJson(signUpRequest);
+
+        Map<String,String>expectedResponse = Map.of("username","Пользователь с данным username уже существует");
+        ResponseEntity<Object>responseEntity = new ResponseEntity<>(expectedResponse,HttpStatus.BAD_REQUEST);
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String responseBody = getResponseBodyAsString(result);
+        String message = getMessageFromJSOM(responseBody, "username");
+
+        assertEquals("Пользователь с данным username уже существует",message);
     }
     private String getMessageFromJSOM(String responseBody,String path){
         return JsonPath.read(responseBody, String.format("$.%s",path));
