@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
 import ru.mudan.controllers.AuthController;
+import ru.mudan.payload.request.SignInRequest;
 import ru.mudan.payload.request.SignUpRequest;
 import ru.mudan.services.AuthenticationService;
 import ru.mudan.validation.ResponseErrorValidation;
@@ -36,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 public class AuthControllerTests {
     private final String AUTH_URL = "/auth";
+    private final String SIGN_UP_URL = "/sign-up";
+    private final String SIGN_IN_URL = "/sign-in";
     @Mock
     private AuthenticationService authenticationService;
     @Mock
@@ -55,7 +58,7 @@ public class AuthControllerTests {
         SignUpRequest signUpRequest = getTestSignUpRequest();
         String requestContent = serializeToJson(signUpRequest);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().isOk())
@@ -75,7 +78,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -95,7 +98,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -114,7 +117,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -134,7 +137,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -154,7 +157,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -174,7 +177,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -194,7 +197,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -214,7 +217,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -234,7 +237,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -253,7 +256,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -273,7 +276,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -293,7 +296,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -313,7 +316,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -333,7 +336,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -353,7 +356,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -374,7 +377,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -394,7 +397,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -414,7 +417,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -434,7 +437,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -454,7 +457,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -474,7 +477,7 @@ public class AuthControllerTests {
 
         when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + "/sign-up")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_UP_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestContent))
                 .andExpect(status().is4xxClientError())
@@ -483,6 +486,46 @@ public class AuthControllerTests {
         String message = getResultFromResponseBody(result, "password");
 
         assertEquals("Пароль должен быть от 8 до 20 символов длиной", message);
+    }
+    @Test
+    public void loginUsernameIsBlank() throws Exception {
+        SignInRequest testSignInRequest = getTestSignInRequest();
+        testSignInRequest.setUsername("");
+        String requestContent = serializeToJson(testSignInRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("username", "username не должен быть пустым или состоять только из пробелов");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_IN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "username");
+
+        assertEquals("username не должен быть пустым или состоять только из пробелов", message);
+    }
+    @Test
+    public void loginPasswordIsBlank() throws Exception {
+        SignInRequest testSignInRequest = getTestSignInRequest();
+        testSignInRequest.setPassword("");
+        String requestContent = serializeToJson(testSignInRequest);
+
+        ResponseEntity<Object> responseEntity = getExpectedResponseEntity("password", "Пароль не должен быть пустым или состоять только из пробелов");
+
+        when(responseErrorValidation.mapValidationService(any(BindingResult.class))).thenReturn(responseEntity);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_IN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "password");
+
+        assertEquals("Пароль не должен быть пустым или состоять только из пробелов", message);
     }
 
     private String getResultFromResponseBody(MvcResult result, String firstname) throws UnsupportedEncodingException {
@@ -501,7 +544,7 @@ public class AuthControllerTests {
     private String getResponseBodyAsString(MvcResult result) throws UnsupportedEncodingException {
         return result.getResponse().getContentAsString(StandardCharsets.UTF_8);
     }
-    private String serializeToJson(SignUpRequest signUpRequest) throws JsonProcessingException {
+    private String serializeToJson(Object signUpRequest) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(signUpRequest);
     }
@@ -513,5 +556,11 @@ public class AuthControllerTests {
         signUpRequest.setEmail("test@mail.ru");
         signUpRequest.setPassword("password_test");
         return signUpRequest;
+    }
+    private SignInRequest getTestSignInRequest(){
+        SignInRequest signInRequest = new SignInRequest();
+        signInRequest.setUsername("test username");
+        signInRequest.setPassword("test_pass");
+        return signInRequest;
     }
 }
