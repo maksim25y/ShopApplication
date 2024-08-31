@@ -3,7 +3,6 @@ package ru.mudan.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
@@ -48,6 +47,6 @@ public class AuthController {
         ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
         if(!ObjectUtils.isEmpty(errors))return errors;
         Optional<JwtAuthenticationResponse>optionalJwtAuthenticationResponse = authenticationService.signIn(request);
-        return optionalJwtAuthenticationResponse.<ResponseEntity<Object>>map(jwtAuthenticationResponse -> new ResponseEntity<>(jwtAuthenticationResponse, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>("Неверное имя пользователя или пароль", HttpStatus.UNAUTHORIZED));
+        return optionalJwtAuthenticationResponse.<ResponseEntity<Object>>map(jwtAuthenticationResponse -> new ResponseEntity<>(jwtAuthenticationResponse, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new MessageResponse("Неверное имя пользователя или пароль"), HttpStatus.UNAUTHORIZED));
     }
 }

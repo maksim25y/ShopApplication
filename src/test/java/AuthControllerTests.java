@@ -20,13 +20,17 @@ import org.springframework.validation.BindingResult;
 import ru.mudan.controllers.AuthController;
 import ru.mudan.payload.request.SignInRequest;
 import ru.mudan.payload.request.SignUpRequest;
+import ru.mudan.payload.response.JwtAuthenticationResponse;
+import ru.mudan.security.JwtService;
 import ru.mudan.services.AuthenticationService;
+import ru.mudan.services.UserService;
 import ru.mudan.validation.ResponseErrorValidation;
 import ru.mudan.validation.SignUpValidator;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +49,10 @@ public class AuthControllerTests {
     private ResponseErrorValidation responseErrorValidation;
     @Mock
     private SignUpValidator signUpValidator;
+    @Mock
+    private UserService userService;
+    @Mock
+    private JwtService jwtService;
     @InjectMocks
     private AuthController authController;
     private MockMvc mockMvc;
@@ -526,6 +534,57 @@ public class AuthControllerTests {
         String message = getResultFromResponseBody(result, "password");
 
         assertEquals("Пароль не должен быть пустым или состоять только из пробелов", message);
+    }
+    @Test
+    public void loginValidRequest() throws Exception {
+        SignInRequest testSignInRequest = getTestSignInRequest();
+        String requestContent = serializeToJson(testSignInRequest);
+        String resultToken = "test_token";
+        when(authenticationService.signIn(any(SignInRequest.class))).thenReturn(Optional.of(new JwtAuthenticationResponse(resultToken)));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_IN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "token");
+
+        assertEquals("test_token",message);
+    }
+    @Test
+    public void loginInvalidUsername() throws Exception {
+        SignInRequest testSignInRequest = getTestSignInRequest();
+        testSignInRequest.setUsername("invalid_us");
+        String requestContent = serializeToJson(testSignInRequest);
+        when(authenticationService.signIn(testSignInRequest)).thenReturn(Optional.empty());
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_IN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "message");
+
+        assertEquals("Неверное имя пользователя или пароль",message);
+    }
+    @Test
+    public void loginInvalidPassword() throws Exception {
+        SignInRequest testSignInRequest = getTestSignInRequest();
+        testSignInRequest.setPassword("invalid_pass");
+        String requestContent = serializeToJson(testSignInRequest);
+        when(authenticationService.signIn(testSignInRequest)).thenReturn(Optional.empty());
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(AUTH_URL + SIGN_IN_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestContent))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+
+        String message = getResultFromResponseBody(result, "message");
+
+        assertEquals("Неверное имя пользователя или пароль",message);
     }
 
     private String getResultFromResponseBody(MvcResult result, String firstname) throws UnsupportedEncodingException {
