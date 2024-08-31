@@ -24,11 +24,6 @@ public class UserService {
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }
-    public User getCurrentUser() {
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getByUsername(username);
-    }
-
     public boolean emailAlreadyExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }

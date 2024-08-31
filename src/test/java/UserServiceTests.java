@@ -167,6 +167,26 @@ public class UserServiceTests {
     public void findByUsernameNotExists(){
         assertThrows(RuntimeException.class,()->userService.getByUsername("test_username"));
     }
+    @Test
+    public void emailAlreadyExists(){
+        User testUser = getTestUser();
+        userService.create(testUser);
+        assertTrue(userService.emailAlreadyExists(testUser.getEmail()));
+    }
+    @Test
+    public void emailDoesNotExists(){
+        assertFalse(userService.emailAlreadyExists("test@mail.ru"));
+    }
+    @Test
+    public void usernameAlreadyExists(){
+        User testUser = getTestUser();
+        userService.create(testUser);
+        assertTrue(userService.usernameAlreadyExists(testUser.getUsername()));
+    }
+    @Test
+    public void usernameDoesNotExists(){
+        assertFalse(userService.usernameAlreadyExists("test_username"));
+    }
     private User getTestUser(){
         User user = new User();
         user.setFirstname("Тестовое имя");
