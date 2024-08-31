@@ -6,10 +6,8 @@ import lombok.Data;
 
 @Data
 public class SignInRequest {
-    @NotEmpty
-    @NotBlank
+    @NotBlank(message = "username не должен быть пустым или состоять только из пробелов")
     private String username;
-    @NotEmpty
-    @NotBlank
+    @NotBlank(message = "Пароль не должен быть пустым или состоять только из пробелов")
     private String password;
 }

@@ -1,15 +1,13 @@
-package ru.mudan.payload.request;
+package ru.mudan.dto;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SignUpRequest {
+public class UserDTO {
+    Long id;
     @Size(min = 2, max = 20, message = "Имя должно быть от 2 до 20 символов длиной")
     @NotBlank(message = "Имя не должно быть пустым или состоять только из пробелов")
     private String firstname;
@@ -22,7 +20,4 @@ public class SignUpRequest {
     @Email(message = "email должен быть в формате example@test.com")
     @NotBlank(message = "email не должен быть пустым или состоять только из пробелов")
     private String email;
-    @Size(min = 8, max = 20, message = "Пароль должен быть от 8 до 20 символов длиной")
-    @NotBlank(message = "Пароль не должен быть пустым или состоять только из пробелов")
-    private String password;
 }
