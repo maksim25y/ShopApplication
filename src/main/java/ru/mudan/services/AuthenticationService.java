@@ -6,8 +6,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.mudan.dto.UserDTO;
-import ru.mudan.facafe.UserFacade;
 import ru.mudan.models.User;
 import ru.mudan.models.enums.Role;
 import ru.mudan.payload.request.SignInRequest;
@@ -19,14 +17,12 @@ import java.util.Optional;
 
 @Service
 public class AuthenticationService {
-    private final UserFacade userFacade;
     private final UserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     @Autowired
-    public AuthenticationService(UserFacade userFacade, UserService userService, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-        this.userFacade = userFacade;
+    public AuthenticationService(UserService userService, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
