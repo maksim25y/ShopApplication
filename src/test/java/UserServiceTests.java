@@ -8,8 +8,7 @@ import ru.mudan.models.User;
 import ru.mudan.repositories.UserRepository;
 import ru.mudan.services.UserService;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = ShopApplication.class)
@@ -150,6 +149,23 @@ public class UserServiceTests {
         testUser.setLastname("ТестТестТестТестТестТ");
         assertThrows(RuntimeException.class,()->userService.create(testUser));
         assertEquals(0,userRepository.findAll().size());
+    }
+    @Test
+    public void findByUsernameExists(){
+        User testUser = getTestUser();
+        userService.create(testUser);
+        assertEquals(1,userRepository.findAll().size());
+        User resultUserByUsername = userService.getByUsername(testUser.getUsername());
+        assertNotNull(resultUserByUsername);
+        assertEquals(testUser.getUsername(),resultUserByUsername.getUsername());
+        assertEquals(testUser.getFirstname(),resultUserByUsername.getFirstname());
+        assertEquals(testUser.getLastname(),resultUserByUsername.getLastname());
+        assertEquals(testUser.getEmail(),resultUserByUsername.getEmail());
+        assertEquals(testUser.getPassword(),resultUserByUsername.getPassword());
+    }
+    @Test
+    public void findByUsernameNotExists(){
+        assertThrows(RuntimeException.class,()->userService.getByUsername("test_username"));
     }
     private User getTestUser(){
         User user = new User();
