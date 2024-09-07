@@ -28,6 +28,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
+    private static final String[] AUTH_WHITELIST =
+            {"/api/v1/auth/",
+        "/v3/api-docs/**",
+        "/v3/api-docs.yaml",
+        "/swagger-ui/**",
+        "/swagger-ui.html"};
     @Autowired
     public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, UserService userService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -47,6 +53,7 @@ public class SecurityConfiguration {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
